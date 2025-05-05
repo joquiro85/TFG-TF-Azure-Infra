@@ -1,0 +1,21 @@
+# Archivos de estado de Terraform
+*.tfstate
+*.tfstate.backup
+
+# Archivos de estado generados por Terraform CLI
+.terraform/
+
+# Archivos de lock y configuración
+.terraform.lock.hcl
+
+# Archivos de salida y log temporal
+crash.log
+*.log
+
+# Archivos de configuración personalizados (si los usas)
+terraform.tfvars
+*.tfvars
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
