@@ -26,6 +26,7 @@ TF-INFRA-AZURE/
 │   ├── user_data.sh
 │   └── variables.tf
 ├── RG-DNSZones/
+├── jumpboxRule.ps1
 ├── .gitignore
 └── README.md
 
