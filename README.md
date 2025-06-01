@@ -8,16 +8,26 @@ Este repositorio contiene la infraestructura del proyecto **TFG** desplegada en 
 
 ---
 
-## 📁 Estructura
+# Estructura del Proyecto `TF-INFRA-AZURE`
 
-```
+```plaintext
 
-├── RG-DNSZones/
-│   └── main.tf         # Crea el RG y la zona DNS
-│
+TF-INFRA-AZURE/
+├── .terraform/
 ├── Infra/
-│   └── main.tf         # Red, subredes, NAT, LB, VMSS, DNS records, etc.
-│   └── user\_data.sh    # Script de inicialización para las instancias VMSS
+│   ├── .terraform/
+│   ├── .terraform.lock.hcl
+│   ├── main.tf
+│   ├── outputs.tf
+│   ├── providers.tf
+│   ├── terraform.tfstate
+│   ├── terraform.tfstate.backup
+│   ├── terraform.tfvars
+│   ├── user_data.sh
+│   └── variables.tf
+├── RG-DNSZones/
+├── .gitignore
+└── README.md
 
 ````
 

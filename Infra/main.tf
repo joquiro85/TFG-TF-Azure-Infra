@@ -99,6 +99,36 @@ resource "azurerm_lb_rule" "http" {
   load_distribution              = "default"
 }
 
+resource "azurerm_network_security_group" "jumpbox_nsg" {
+  name                = "nsg-jumpbox"
+  location            = var.location
+  resource_group_name = data.azurerm_resource_group.main.name
+
+  security_rule {
+    name                       = "Allow-SSH-Jumpbox"
+    priority                   = 1001
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = "0.0.0.0/32" # no IP valida.
+    destination_address_prefix = "*"
+  }
+
+  security_rule {
+    name                       = "Allow-All-Outbound"
+    priority                   = 1000
+    direction                  = "Outbound"
+    access                     = "Allow"
+    protocol                   = "*"
+    source_port_range          = "*"
+    destination_port_range     = "*"
+    source_address_prefix      = "*"
+    destination_address_prefix = "*"
+  }
+}
+
 resource "azurerm_network_security_group" "web_nsg" {
   name                = "nsg-web"
   location            = data.azurerm_resource_group.main.location
@@ -124,7 +154,7 @@ resource "azurerm_network_security_group" "web_nsg" {
     protocol                   = "Tcp"
     source_port_range          = "*"
     destination_port_range     = "22"
-    source_address_prefix      = "*"
+    source_address_prefix      = "10.0.1.0/24"
     destination_address_prefix = "*"
   }
 
@@ -162,15 +192,11 @@ resource "azurerm_public_ip" "vm_public_ip" {
   sku                 = "Standard"
 }
 
-resource "azurerm_network_interface_security_group_association" "vm_nic_nsg" {
+resource "azurerm_network_interface_security_group_association" "jumpbox_nic_nsg" {
   network_interface_id      = azurerm_network_interface.vm_nic.id
-  network_security_group_id = azurerm_network_security_group.web_nsg.id
-
-  depends_on = [
-    azurerm_network_interface.vm_nic,
-    azurerm_network_security_group.web_nsg
-  ]
+  network_security_group_id = azurerm_network_security_group.jumpbox_nsg.id
 }
+
 
 resource "azurerm_linux_virtual_machine_scale_set" "nginx_vmss" {
   name                            = "tfg-nginx-vmss"
@@ -212,7 +238,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "nginx_vmss" {
 
   custom_data = filebase64("${path.module}/user_data.sh")
 
-  depends_on = [azurerm_network_interface_security_group_association.vm_nic_nsg]
+  depends_on = [azurerm_network_interface_security_group_association.jumpbox_nic_nsg]
 }
 
 resource "azurerm_monitor_autoscale_setting" "nginx_vmss_autoscale" {
@@ -295,7 +321,8 @@ resource "azurerm_linux_virtual_machine" "jumpbox" {
     version   = var.image_reference.version
   }
 
-  depends_on = [azurerm_network_interface_security_group_association.vm_nic_nsg]
+  depends_on = [azurerm_network_interface_security_group_association.jumpbox_nic_nsg]
+
 }
 
 resource "azurerm_dns_a_record" "tfg_root" {

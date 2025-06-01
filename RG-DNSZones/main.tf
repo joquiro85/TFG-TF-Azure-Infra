@@ -16,3 +16,6 @@ resource "azurerm_dns_zone" "tfg_zone" {
     prevent_destroy = true
   }
 }
+
+
+
