@@ -53,8 +53,6 @@ resource "azurerm_dns_zone" "tfg_zone" { ... }
 ````
 > Ejecutar **primero**, ya que el resto de módulos dependen de la zona.
 
-✅ **Ejecutar primero**, ya que los demás módulos dependen de esta zona.
-
 ---
 
 ## 2. Módulo: `Infra`
@@ -136,7 +134,7 @@ Parámetros opcionales:
 
 ---
 
-## 4 · Script `user_data.sh`
+## 4. Script `user_data.sh`
 
 Se inyecta como *custom data* en el VMSS y realiza:
 
