@@ -34,6 +34,7 @@ TF-INFRA-AZURE/
 │   ├── terraform.tfvars
 │   └── variables.tf
 ├── JumpboxRule.ps1
+├── jumpboxRule.ps1
 ├── .gitignore
 └── README.md
 
