@@ -33,7 +33,6 @@ TF-INFRA-AZURE/
 │   ├── providers.tf
 │   ├── terraform.tfvars
 │   └── variables.tf
-├── JumpboxRule.ps1
 ├── jumpboxRule.ps1
 ├── .gitignore
 └── README.md
@@ -42,7 +41,7 @@ TF-INFRA-AZURE/
 
 ---
 
-\## 1. Módulo: `RG-DNSZones`
+## 1. Módulo: `RG-DNSZones`
 
 Este módulo despliega:
 - Un **Resource Group** (`TFG-Infra`) con `prevent_destroy` activado.
@@ -58,7 +57,7 @@ resource "azurerm_dns_zone" "tfg_zone" { ... }
 
 ---
 
-\## 2. Módulo: `Infra`
+## 2. Módulo: `Infra`
 
 Este módulo contiene la infraestructura principal del proyecto. Incluye:
 
@@ -99,7 +98,7 @@ Este módulo contiene la infraestructura principal del proyecto. Incluye:
 
 ---
 
-\## 3 · Script utilitario `JumpboxRule.ps1`
+## 3.  Script utilitario `JumpboxRule.ps1`
 
 Terraform deja la regla **SSH** del *Network Security Group* **cerrada** a todo el mundo para evitar exposiciones accidentales.
 `JumpboxRule.ps1` es un pequeño **helper** en PowerShell que sustituye dinámicamente el valor `0.0.0.0/32` por **tu IP pública actual** y deja listo el acceso.
@@ -137,7 +136,7 @@ Parámetros opcionales:
 
 ---
 
-\## 4 · Script `user_data.sh`
+## 4 · Script `user_data.sh`
 
 Se inyecta como *custom data* en el VMSS y realiza:
 
@@ -148,7 +147,7 @@ Se inyecta como *custom data* en el VMSS y realiza:
 
 De esta forma cada instancia muestra su propio **VM ID** en la página de estado
 
-\## Despliegue
+## Despliegue
 
 ### 1. Inicializa Terraform
 
@@ -188,7 +187,7 @@ image_reference = {
 
 ---
 
-\## Buenas prácticas y protecciones
+## Buenas prácticas y protecciones
 
 * `prevent_destroy` en el RG y la zona DNS.
 * NSGs dedicados a **web** y **jump‑box**.
